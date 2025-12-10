@@ -1,0 +1,39 @@
+<h1>test .. </h1>
+
+<button id="vote-btn">👍 test </button>
+<span id="vote-count"></span>
+
+<script>
+const countEl = document.getElementById("vote-count");
+const btn = document.getElementById("vote-btn");
+
+//  UUID anonyme
+let uuid = localStorage.getItem("extVoteId");
+if (!uuid) {
+  uuid = crypto.randomUUID();
+  localStorage.setItem("extVoteId", uuid);
+}
+
+// GET initial
+fetch("https://livelightning.ddnsfree.com/vote-extension")
+  .then(r => r.json())
+  .then(data => countEl.textContent = data.count);
+
+// POST au clic
+btn.onclick = async () => {
+  if (localStorage.getItem("extVoted") === "yes") {
+    alert("Vous avez déjà voté !");
+    return;
+  }
+
+  const res = await fetch("https://livelightning.ddnsfree.com/vote-extension", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ uuid })
+  });
+
+  const data = await res.json();
+  countEl.textContent = data.count;
+  localStorage.setItem("extVoted", "yes");
+};
+</script>
