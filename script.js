@@ -1,7 +1,7 @@
 const images = [
-  "images/image1.jpg",
-  "images/image2.png",
-  "images/image3.webp"
+  "images/image1.jpeg",
+  "images/image2.jpeg",
+  "images/image3.jpeg"
 ];
 
 const randomIndex = Math.floor(Math.random() * images.length);
